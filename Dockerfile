@@ -71,16 +71,6 @@ CMD npm start
  ## 如果想运行多条指令可以这样：
 ## CMD git pull && npm install && npm start
 
-############  222222 ##################
-
-# docker build -f /root/project/vue_shop/Dockerfile . -t vueadmin
-# docker run -p 10520:80  --name vueadmin -dit vueadmin
-# docker run -p 80:80 -v /root/nginx/nginx.conf:/etc/nginx/nginx.conf  -d nginx:latest
-
-# docker rm $(docker ps -a -q)
-# docker image prune -a -f
-
-
 #################################
 FROM node as BUILD
 MAINTAINER Min "hsp_email@163.com"

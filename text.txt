@@ -1,0 +1,6 @@
+# docker build -f /root/project/vue_shop/Dockerfile . -t vueadmin
+# docker run -p 10520:80  --name vueadmin -dit vueadmin
+# docker run -p 80:80 -v /root/nginx/nginx.conf:/etc/nginx/nginx.conf  -d nginx:latest
+
+# docker rm $(docker ps -a -q)
+# docker image prune -a -f
