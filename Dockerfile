@@ -29,14 +29,6 @@ EXPOSE 9000
 RUN echo 'echo init ok!!'
 ############  111111 ##################
 
-# docker build -f /root/project/vue_shop/Dockerfile . -t vueadmin
-# docker run -p 10520:80  --name vueadmin -dit vueadmin
-# docker run -p 80:80 -v /root/nginx/nginx.conf:/etc/nginx/nginx.conf  -d nginx:latest
-
-# docker rm $(docker ps -a -q)
-# docker image prune -a -f
-
-############  222222 ##################
 
 # ARG：用于指定传递给构建运行时的变量
 # 格式：
@@ -69,6 +61,7 @@ CMD ["-c"]注：　　　ENTRYPOINT与CMD非常类似，不同的是通过docker
 
 ############  简约部署 ##################
 # https://www.jianshu.com/p/ab76ba86eafc
+
 FROM node
 WORKDIR /app
 COPY . /app
@@ -77,3 +70,31 @@ EXPOSE 8888
 CMD npm start   
  ## 如果想运行多条指令可以这样：
 ## CMD git pull && npm install && npm start
+
+############  222222 ##################
+
+# docker build -f /root/project/vue_shop/Dockerfile . -t vueadmin
+# docker run -p 10520:80  --name vueadmin -dit vueadmin
+# docker run -p 80:80 -v /root/nginx/nginx.conf:/etc/nginx/nginx.conf  -d nginx:latest
+
+# docker rm $(docker ps -a -q)
+# docker image prune -a -f
+
+
+#################################
+FROM node as BUILD
+MAINTAINER Min "hsp_email@163.com"
+WORKDIR  /app
+COPY . /app/
+VOLUME ./node_modules /app/node_modules
+RUN yarn && yarn build
+
+# 使用 nginx最新版本作为基础镜像
+FROM nginx
+COPY --from=BUILD /app/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=BUILD /app/dist /app
+
+# 声明运行时容器暴露的端口（容器提供的服务端口）
+EXPOSE 9000
+
+RUN echo 'echo init ok!!'
